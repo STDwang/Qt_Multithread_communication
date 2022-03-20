@@ -4,9 +4,11 @@ mainQthread::mainQthread(QWidget *parent)
     : QWidget(parent)
 {
     ui.setupUi(this);
+	//You must instantiate before you connect
 	//进行connect前必须实例化  
 	son1 = new sonThread();
 
+	// Interface data -》 main thread
 	//界面数据-》主线程
 	connect(ui.pushButton_2, SIGNAL(clicked()), this, SLOT(createSatesGJForward()));
 	connect(ui.pushButton_3, SIGNAL(clicked()), this, SLOT(createMbGJForward()));
@@ -15,6 +17,7 @@ mainQthread::mainQthread(QWidget *parent)
 	connect(ui.pushButton_6, SIGNAL(clicked()), this, SLOT(getDataForward()));
 	connect(ui.pushButton, SIGNAL(clicked()), this, SLOT(allTaskForward()));
 
+	//Main thread data -》subthread
 	//主线程数据-》子线程
 	connect(this, SIGNAL(createSatesGJ(QVariantList, bool)), son1, SLOT(createSatesGJSon1(QVariantList, bool)));
 	connect(this, SIGNAL(createMbGJ(QVariantList, bool)), son1, SLOT(createMbGJSon1(QVariantList, bool)));
@@ -23,12 +26,12 @@ mainQthread::mainQthread(QWidget *parent)
 	connect(this, SIGNAL(getData()), son1, SLOT(getDataSon1()));
 	connect(this, SIGNAL(allTask()), son1, SLOT(allTaskSon1()));
 
+	//Subthread data -》main thread -》interface
 	//子线程数据-》主线程-》界面
 	connect(son1, SIGNAL(testSon1(QString)), this, SLOT(test(QString)));
 	connect(son1, SIGNAL(getDataOutSon1(QVariantList, int, QVariantList, int, QVariantList, int)),
 			this, SLOT(getDataOut(QVariantList, int, QVariantList, int, QVariantList, int)));
-
-	//执行子线程  
+ 
 	son1->start();
 }
 //将数据转发

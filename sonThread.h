@@ -72,7 +72,7 @@ struct satesLibrary {
 Q_DECLARE_METATYPE(mbLibrary);
 Q_DECLARE_METATYPE(satesLibrary);
 
-//工作线程
+//工作线程 work thread
 class sonThread : public QThread
 {
 	Q_OBJECT
