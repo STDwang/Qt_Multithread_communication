@@ -3,7 +3,7 @@
 #include <QtWidgets/QWidget>
 #include "ui_mainQthread.h"
 #include "qdebug.h"
-#include "sonThread.h"
+#include "work.h"
 
 class mainQthread : public QWidget
 {
@@ -54,5 +54,6 @@ private slots:
 
 private:
     Ui::mainQthreadClass ui;
-	sonThread *son1;
+	QThread *workThread;
+	Work *work;
 };

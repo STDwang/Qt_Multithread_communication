@@ -6,7 +6,9 @@ mainQthread::mainQthread(QWidget *parent)
     ui.setupUi(this);
 	//You must instantiate before you connect
 	//进行connect前必须实例化  
-	son1 = new sonThread();
+	workThread = new QThread;
+	work = new Work();
+	work->moveToThread(workThread);
 
 	// Interface data -》 main thread
 	//界面数据-》主线程
@@ -19,20 +21,20 @@ mainQthread::mainQthread(QWidget *parent)
 
 	//Main thread data -》subthread
 	//主线程数据-》子线程
-	connect(this, SIGNAL(createSatesGJ(QVariantList, bool)), son1, SLOT(createSatesGJSon1(QVariantList, bool)));
-	connect(this, SIGNAL(createMbGJ(QVariantList, bool)), son1, SLOT(createMbGJSon1(QVariantList, bool)));
-	connect(this, SIGNAL(getNewSate(QVariantList)), son1, SLOT(getNewSateSon1(QVariantList)));
-	connect(this, SIGNAL(getNewMb(QVariantList)), son1, SLOT(getNewMbSon1(QVariantList)));
-	connect(this, SIGNAL(getData()), son1, SLOT(getDataSon1()));
-	connect(this, SIGNAL(allTask()), son1, SLOT(allTaskSon1()));
+	connect(this, SIGNAL(createSatesGJ(QVariantList, bool)), work, SLOT(createSatesGJSon1(QVariantList, bool)));
+	connect(this, SIGNAL(createMbGJ(QVariantList, bool)), work, SLOT(createMbGJSon1(QVariantList, bool)));
+	connect(this, SIGNAL(getNewSate(QVariantList)), work, SLOT(getNewSateSon1(QVariantList)));
+	connect(this, SIGNAL(getNewMb(QVariantList)), work, SLOT(getNewMbSon1(QVariantList)));
+	connect(this, SIGNAL(getData()), work, SLOT(getDataSon1()));
+	connect(this, SIGNAL(allTask()), work, SLOT(allTaskSon1()));
 
 	//Subthread data -》main thread -》interface
 	//子线程数据-》主线程-》界面
-	connect(son1, SIGNAL(testSon1(QString)), this, SLOT(test(QString)));
-	connect(son1, SIGNAL(getDataOutSon1(QVariantList, int, QVariantList, int, QVariantList, int)),
+	connect(work, SIGNAL(testSon1(QString)), this, SLOT(test(QString)));
+	connect(work, SIGNAL(getDataOutSon1(QVariantList, int, QVariantList, int, QVariantList, int)),
 			this, SLOT(getDataOut(QVariantList, int, QVariantList, int, QVariantList, int)));
  
-	son1->start();
+	workThread->start();
 }
 //将数据转发
 void mainQthread::getNewSateForward() {

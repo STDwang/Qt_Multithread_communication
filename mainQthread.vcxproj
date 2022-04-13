@@ -84,7 +84,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="sonThread.cpp" />
+    <ClCompile Include="work.cpp" />
     <QtRcc Include="mainQthread.qrc" />
     <QtUic Include="mainQthread.ui" />
     <QtMoc Include="mainQthread.h" />
@@ -92,7 +92,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="sonThread.h" />
+    <QtMoc Include="work.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
